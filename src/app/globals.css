@@ -1,0 +1,297 @@
+@import "tailwindcss";
+@plugin "@tailwindcss/typography";
+
+:root {
+  --background: #ffffff;
+  --foreground: #0a0a0a;
+
+  --font-space-grotesk: var(--font-space-grotesk-raw), "Segoe UI", Arial, sans-serif;
+  --font-inter: var(--font-inter), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  --font-public-sans: var(--font-public-sans), "Segoe UI", Arial, sans-serif;
+
+  /* true gold accent — used for CTAs, borders, icon fills and text accents
+     against black or white. Kept to a real metallic-gold hue (not amber,
+     not brown) so it reads as gold on both light and dark surfaces. */
+  --color-gold-50: #fdf6e3;
+  --color-gold-100: #f9e8b8;
+  --color-gold-200: #f0d78c;
+  --color-gold-300: #e5c15e;
+  --color-gold-400: #d4af37;
+  --color-gold-500: #b8942c;
+  --color-gold-600: #967623;
+  --color-gold-700: #745a1b;
+  --color-gold-800: #523f13;
+  --color-gold-900: #33270c;
+
+  /* near-black ink */
+  --color-ink-950: #000000;
+  --color-ink-900: #0a0a0a;
+  --color-ink-800: #171717;
+  --color-ink-700: #2b2b2b;
+  --color-ink-600: #454545;
+  --color-ink-500: #6b6b6b;
+  --color-ink-400: #999999;
+
+  /* warm stone neutrals (light backgrounds) */
+  --color-stone-50: #ffffff;
+  --color-stone-100: #f7f5f0;
+  --color-stone-200: #ede9df;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-public-sans: var(--font-public-sans);
+
+  --color-gold-50: var(--color-gold-50);
+  --color-gold-100: var(--color-gold-100);
+  --color-gold-200: var(--color-gold-200);
+  --color-gold-300: var(--color-gold-300);
+  --color-gold-400: var(--color-gold-400);
+  --color-gold-500: var(--color-gold-500);
+  --color-gold-600: var(--color-gold-600);
+  --color-gold-700: var(--color-gold-700);
+  --color-gold-800: var(--color-gold-800);
+  --color-gold-900: var(--color-gold-900);
+
+  --color-ink-950: var(--color-ink-950);
+  --color-ink-900: var(--color-ink-900);
+  --color-ink-800: var(--color-ink-800);
+  --color-ink-700: var(--color-ink-700);
+  --color-ink-600: var(--color-ink-600);
+  --color-ink-500: var(--color-ink-500);
+  --color-ink-400: var(--color-ink-400);
+
+  --color-stone-50: var(--color-stone-50);
+  --color-stone-100: var(--color-stone-100);
+  --color-stone-200: var(--color-stone-200);
+
+  /*
+   * Headline scale (geometric sans display, tight tracking). Fluid via
+   * clamp() so a single class covers every viewport. Pair with font-display
+   * and an explicit font-weight (500/600/700 — the only weights loaded for
+   * Space Grotesk; an unweighted font-display falls back to a synthesized
+   * 400 and renders inconsistently across browsers).
+   *   h1  — page titles              e.g. "Our Agents", "Contact Us"
+   *   h2  — section headings         e.g. "Featured Properties"
+   *   h3  — card/subsection headings e.g. an amenity group title
+   */
+  --text-h1: clamp(1.875rem, 1.65rem + 1vw, 2.5rem); /* 30px → 40px */
+  --text-h1--line-height: 1.1;
+  --text-h2: clamp(1.625rem, 1.45rem + 0.8vw, 2.25rem); /* 26px → 36px */
+  --text-h2--line-height: 1.15;
+  --text-h3: clamp(1.25rem, 1.15rem + 0.4vw, 1.5rem); /* 20px → 24px */
+  --text-h3--line-height: 1.25;
+
+  /*
+   * Eyebrow — the small uppercase kicker above section headings
+   * ("CURATED SELECTION", "RESERVE TOMORROW'S ADDRESS"). Use with
+   * uppercase font-semibold tracking-eyebrow text-gold-600 (or
+   * text-gold-200 on dark backgrounds).
+   */
+  --text-eyebrow: 0.6875rem; /* 11px */
+  --text-eyebrow--line-height: 1.4;
+  --tracking-eyebrow: 0.24em;
+
+  /*
+   * Body copy: no new tokens needed — Tailwind's stock scale already
+   * covers this range cleanly. Standardize on these four roles instead
+   * of ad hoc text-[13px]/text-[15px]/text-[17px] values:
+   *   text-xs   (12px) — captions, meta text, timestamps
+   *   text-sm   (14px) — secondary body copy, form labels, card meta
+   *   text-base (16px) — default paragraph copy
+   *   text-lg   (18px) — lead paragraphs, intro copy under a hero H1
+   */
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter);
+}
+
+.font-display {
+  font-family: var(--font-space-grotesk);
+  letter-spacing: -0.01em;
+}
+
+::selection {
+  background: var(--color-gold-300);
+  color: var(--color-ink-950);
+}
+
+/*
+ * Architectural marker — a short gold tick flush left of a heading. Kept
+ * from the sharp-edged layout system; only the color changed to a real
+ * metallic gold for the black & gold theme.
+ */
+.gold-underline {
+  position: relative;
+  padding-left: 1.25rem;
+}
+.gold-underline::before {
+  content: "";
+  position: absolute;
+  inset-inline-start: 0;
+  top: 0.5em;
+  height: 0.55em;
+  width: 2px;
+  background: var(--color-gold-400);
+}
+
+/* Metallic gold gradient text — used sparingly, for a single accent word
+   in a headline or wordmark, never a full paragraph. */
+.text-gradient-gold {
+  background: linear-gradient(100deg, var(--color-gold-300), var(--color-gold-500) 55%, var(--color-gold-300));
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/*
+ * Header transparent/solid look, keyed off #site-header[data-mode] instead
+ * of per-element Tailwind ternaries. The mode is set both by React
+ * (transparent state) and, before hydration, by an inline script in
+ * Header.tsx that reads the real browser location — needed because this
+ * app's ISR regeneration re-renders the shared layout without a reliable
+ * per-route pathname, so usePathname() can't be trusted for the header's
+ * server-rendered class on "/".
+ */
+#site-header {
+  background-color: rgb(255 255 255 / 0.92);
+  border-color: var(--color-stone-200);
+  backdrop-filter: blur(8px);
+}
+#site-header[data-mode="transparent"] {
+  background-color: transparent;
+  border-color: rgb(255 255 255 / 0.2);
+  backdrop-filter: none;
+}
+
+#site-header .hdr-tint {
+  color: var(--color-ink-900);
+}
+#site-header[data-mode="transparent"] .hdr-tint {
+  color: #fff;
+}
+
+#site-header .hdr-accent {
+  color: var(--color-gold-500);
+}
+#site-header[data-mode="transparent"] .hdr-accent {
+  color: #fff;
+}
+
+#site-header .hdr-link {
+  color: var(--color-ink-700);
+}
+#site-header .hdr-link:hover {
+  color: var(--color-gold-500);
+}
+#site-header[data-mode="transparent"] .hdr-link {
+  color: rgb(255 255 255 / 0.85);
+}
+#site-header[data-mode="transparent"] .hdr-link:hover {
+  color: #fff;
+}
+#site-header .hdr-link.hdr-link-active {
+  color: var(--color-gold-500);
+}
+
+#site-header .hdr-icon {
+  color: var(--color-ink-600);
+}
+#site-header .hdr-icon:hover {
+  color: var(--color-gold-500);
+}
+#site-header[data-mode="transparent"] .hdr-icon {
+  color: rgb(255 255 255 / 0.75);
+}
+#site-header[data-mode="transparent"] .hdr-icon:hover {
+  color: #fff;
+}
+
+@keyframes fade-up {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-fade-up {
+  animation: fade-up 0.7s ease both;
+}
+
+@keyframes hero-zoom {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.06);
+  }
+}
+.animate-hero-zoom {
+  animation: hero-zoom 20s ease-out forwards;
+}
+
+/* A very slow, continuous breathing zoom for background video — adds
+   cinematic depth without competing with the video's own motion. */
+@keyframes hero-drift {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(1.05);
+  }
+}
+.animate-hero-drift {
+  animation: hero-drift 40s ease-in-out infinite alternate;
+}
+
+@keyframes scroll-cue {
+  0%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  50% {
+    transform: translateY(6px);
+    opacity: 1;
+  }
+}
+.animate-scroll-cue {
+  animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+@keyframes marquee {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-50%);
+  }
+}
+.animate-marquee {
+  animation: marquee 28s linear infinite;
+}
+
+@keyframes marquee-reverse {
+  from {
+    transform: translateX(-50%);
+  }
+  to {
+    transform: translateX(0);
+  }
+}
+.animate-marquee-reverse {
+  animation: marquee-reverse 34s linear infinite;
+}
