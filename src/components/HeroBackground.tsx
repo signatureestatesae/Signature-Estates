@@ -9,6 +9,13 @@ import { Volume2, VolumeX } from "lucide-react";
 // cost for a decorative background most phones will just scroll past.
 const VIDEO_MIN_WIDTH = 768;
 
+// A light color grade for hero footage/photos — aerial and drone shots in
+// particular tend to come back hazy and a little flat straight out of
+// camera. Punching contrast/saturation up and pulling brightness down a
+// touch reads as "cinematic" instead of washed out, without needing a
+// re-edit of the source file.
+const MEDIA_GRADE = "[filter:contrast(1.12)_saturate(1.25)_brightness(0.92)]";
+
 export default function HeroBackground({
   mediaType,
   imageUrl,
@@ -38,7 +45,7 @@ export default function HeroBackground({
             play, so there's never a flash of black while it buffers. On
             mobile this image is the whole background; no video loads. */}
         {imageUrl && (
-          <Image src={imageUrl} alt="" fill priority sizes="100vw" className="object-cover" />
+          <Image src={imageUrl} alt="" fill priority sizes="100vw" className={`object-cover ${MEDIA_GRADE}`} />
         )}
         {allowVideo && (
           <>
@@ -52,7 +59,7 @@ export default function HeroBackground({
               preload="auto"
               poster={imageUrl || undefined}
               onCanPlay={() => setVideoReady(true)}
-              className={`animate-hero-drift absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${
+              className={`animate-hero-drift absolute inset-0 h-full w-full object-cover transition-opacity duration-1000 ${MEDIA_GRADE} ${
                 videoReady ? "opacity-100" : "opacity-0"
               }`}
             >
@@ -88,7 +95,7 @@ export default function HeroBackground({
       fill
       priority
       sizes="100vw"
-      className="animate-hero-zoom object-cover"
+      className={`animate-hero-zoom object-cover ${MEDIA_GRADE}`}
     />
   );
 }

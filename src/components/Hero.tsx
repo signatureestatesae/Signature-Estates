@@ -10,14 +10,18 @@ export default async function Hero() {
     <section className="relative -mt-[71px] flex min-h-[720px] items-center overflow-hidden bg-ink-950 py-32 sm:min-h-[800px] lg:min-h-[92vh]">
       <HeroBackground mediaType={hero.mediaType} imageUrl={hero.imageUrl} videoUrl={hero.videoUrl} />
 
-      {/* Bottom scrim only — the imagery itself does the work, so contrast
-          is built up gradually behind the copy rather than flattened with a
-          uniform tint across the whole frame. */}
-      <div className="absolute inset-0 bg-gradient-to-t from-ink-950/85 via-ink-950/15 to-transparent" />
+      {/* Bottom scrim — builds contrast up from the floor of the frame. */}
+      <div className="absolute inset-0 bg-gradient-to-t from-ink-950/90 via-ink-950/45 to-transparent" />
       {/* Top scrim, independent of the bottom one — keeps the transparent
           header's logo/nav readable regardless of how bright the footage is
           up there (sky, sand, sun). */}
       <div className="absolute inset-x-0 top-0 h-40 bg-gradient-to-b from-ink-950/55 to-transparent" />
+      {/* Focused vignette behind the copy block — footage is unpredictable
+          (a busy aerial shot can put light sand or pale rooftops directly
+          behind the headline), so this guarantees a dark floor for the text
+          regardless of what's playing underneath, without flattening the
+          whole frame the way a uniform tint would. */}
+      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_60%_55%_at_50%_50%,rgba(0,0,0,0.55)_0%,transparent_70%)]" />
 
       <div className="relative z-10 mx-auto w-full max-w-3xl px-5 text-center lg:px-8">
         <div className="animate-fade-up flex items-center justify-center gap-3">
@@ -28,19 +32,27 @@ export default async function Hero() {
           <span className="h-px w-8 bg-gold-300/50" />
         </div>
 
-        <h1
-          className="animate-fade-up mx-auto mt-6 max-w-2xl text-balance leading-[1.05] text-white drop-shadow-[0_4px_30px_rgba(0,0,0,0.55)]"
-          style={{ animationDelay: "70ms" }}
-        >
+        <h1 className="animate-fade-up mx-auto mt-6 max-w-2xl text-balance leading-[1.05]" style={{ animationDelay: "70ms" }}>
           <span
-            className="block font-display font-medium tracking-[0.02em]"
-            style={{ fontSize: "clamp(18px, 2.2vw, 24px)" }}
+            className="block font-display font-medium tracking-[0.02em] text-white"
+            style={{
+              fontSize: "clamp(18px, 2.2vw, 24px)",
+              filter: "drop-shadow(0 2px 6px rgba(0,0,0,0.75)) drop-shadow(0 10px 30px rgba(0,0,0,0.5))",
+            }}
           >
             Find Your
           </span>
+          {/* A hard, close contact shadow (not just a soft ambient one) — the
+              gold gradient fill alone loses to light sand/rooftops in busy
+              footage, so this pins a dark edge under the letterforms no
+              matter what's behind them. */}
           <span
             className="text-gradient-gold mt-1 block font-serif italic font-medium"
-            style={{ fontSize: "clamp(42px, 7vw, 84px)" }}
+            style={{
+              fontSize: "clamp(42px, 7vw, 84px)",
+              filter:
+                "drop-shadow(0 1px 2px rgba(0,0,0,0.9)) drop-shadow(0 4px 10px rgba(0,0,0,0.7)) drop-shadow(0 16px 40px rgba(0,0,0,0.5))",
+            }}
           >
             Perfect Address
           </span>
