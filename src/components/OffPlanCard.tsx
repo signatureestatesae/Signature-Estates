@@ -15,7 +15,7 @@ export default function OffPlanCard({
   return (
     <Link
       href={`/off-plan/${project.slug}`}
-      className="group block overflow-hidden rounded-sm border border-gold-300/50 bg-white shadow-sm transition-all duration-300 hover:-translate-y-1 hover:border-gold-400 hover:shadow-[0_25px_55px_-15px_rgba(184,146,63,0.45)]"
+      className="group block overflow-hidden rounded-sm border border-gold-300/50 bg-white shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-premium)] hover:-translate-y-1.5 hover:border-gold-400 hover:shadow-[0_25px_55px_-15px_rgba(184,146,63,0.45)]"
     >
       <div className="relative aspect-[16/11] w-full overflow-hidden bg-gray-100">
         {project.images.length > 0 ? (
@@ -24,7 +24,7 @@ export default function OffPlanCard({
             alt={project.name}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-700 [transition-timing-function:var(--ease-premium)] group-hover:scale-105"
             placeholder="blur"
             blurDataURL={shimmerBlurDataURL(400, 275)}
             priority={priority}

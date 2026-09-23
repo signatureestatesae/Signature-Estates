@@ -33,8 +33,11 @@ export default function Reveal({
   return (
     <div
       ref={ref}
-      style={{ transitionDelay: visible ? `${delay}ms` : "0ms" }}
-      className={`transition-all duration-700 ease-out ${
+      style={{
+        transitionDelay: visible ? `${delay}ms` : "0ms",
+        transitionTimingFunction: "var(--ease-premium)",
+      }}
+      className={`transition-all duration-700 ${
         visible ? "translate-y-0 opacity-100" : "translate-y-8 opacity-0"
       } ${className}`}
     >

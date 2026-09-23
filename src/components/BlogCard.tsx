@@ -7,7 +7,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
   return (
     <Link
       href={`/blog/${post.slug}`}
-      className="group block overflow-hidden rounded-sm border border-gray-100 bg-white shadow-sm transition hover:-translate-y-1 hover:shadow-xl"
+      className="group block overflow-hidden rounded-sm border border-gray-100 bg-white shadow-sm transition-all duration-500 [transition-timing-function:var(--ease-premium)] hover:-translate-y-1.5 hover:shadow-xl"
     >
       <div className="relative aspect-[16/10] w-full overflow-hidden bg-gray-100">
         {post.coverImage ? (
@@ -16,7 +16,7 @@ export default function BlogCard({ post }: { post: BlogPost }) {
             alt={post.title}
             fill
             sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            className="object-cover transition duration-500 group-hover:scale-105"
+            className="object-cover transition duration-700 [transition-timing-function:var(--ease-premium)] group-hover:scale-105"
           />
         ) : null}
       </div>

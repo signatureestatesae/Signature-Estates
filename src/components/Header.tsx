@@ -158,7 +158,7 @@ export default function Header() {
       </div>
 
       {open && (
-        <div className="border-t border-stone-200 bg-white px-5 py-4 lg:hidden">
+        <div className="animate-menu-in origin-top border-t border-stone-200 bg-white px-5 py-4 lg:hidden">
           <nav className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <div key={link.label}>

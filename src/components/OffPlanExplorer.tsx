@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useEffect, useMemo, useState } from "react";
 import type { OffPlanProject, OffPlanStatus } from "@/data/types";
 import OffPlanCard from "./OffPlanCard";
+import Reveal from "./Reveal";
 
 const STATUSES: OffPlanStatus[] = [
   "Pre-Launch",
@@ -196,7 +197,9 @@ export default function OffPlanExplorer({ projects }: { projects: OffPlanProject
       {filtered.length > 0 ? (
         <div className="grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {filtered.map((project, i) => (
-            <OffPlanCard key={project.id} project={project} priority={i < 3} />
+            <Reveal key={project.id} delay={(i % 6) * 60}>
+              <OffPlanCard project={project} priority={i < 3} />
+            </Reveal>
           ))}
         </div>
       ) : (

@@ -110,6 +110,14 @@ html {
   scroll-behavior: smooth;
 }
 
+/* The deceleration curve behind every "premium" transition on this site —
+   a snappy start that eases into a long, soft landing (ease-out-expo-ish),
+   instead of Tailwind's default linear-ish `ease`. Used for hover states,
+   the mobile menu and scroll reveals so motion feels consistent site-wide. */
+:root {
+  --ease-premium: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
 body {
   background: var(--background);
   color: var(--foreground);
@@ -270,6 +278,37 @@ body {
 }
 .animate-scroll-cue {
   animation: scroll-cue 2.2s ease-in-out infinite;
+}
+
+/* Route-change fade — applied to the whole page body via PageTransition.tsx
+   so navigating between pages settles in smoothly instead of hard-cutting. */
+@keyframes page-in {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-page-in {
+  animation: page-in 0.5s var(--ease-premium) both;
+}
+
+/* Mobile nav dropdown — slides/fades open instead of snapping in. */
+@keyframes menu-in {
+  from {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+.animate-menu-in {
+  animation: menu-in 0.25s var(--ease-premium) both;
 }
 
 @keyframes marquee {

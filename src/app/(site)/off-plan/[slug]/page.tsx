@@ -9,6 +9,7 @@ import { formatLocation, formatNumber, formatPrice, truncateForMeta } from "@/li
 import PropertyGallery from "@/components/PropertyGallery";
 import InquiryForm from "@/components/InquiryForm";
 import OffPlanCard from "@/components/OffPlanCard";
+import Reveal from "@/components/Reveal";
 import TrustBadges from "@/components/TrustBadges";
 import ProjectLocationMap from "@/components/ProjectLocationMap";
 import OffPlanStickyHeader from "@/components/OffPlanStickyHeader";
@@ -389,8 +390,10 @@ export default async function OffPlanDetailPage({
             More off-plan projects
           </h2>
           <div className="mt-8 grid grid-cols-1 gap-8 sm:grid-cols-2 lg:grid-cols-3">
-            {relatedFallback.map((p) => (
-              <OffPlanCard key={p.id} project={p} />
+            {relatedFallback.map((p, i) => (
+              <Reveal key={p.id} delay={(i % 6) * 60}>
+                <OffPlanCard project={p} />
+              </Reveal>
             ))}
           </div>
         </div>

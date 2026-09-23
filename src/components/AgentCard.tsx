@@ -11,13 +11,13 @@ export default function AgentCard({ agent }: { agent: Agent }) {
   const badge = SENIOR_TITLES.some((t) => agent.title.includes(t)) ? agent.title : null;
 
   return (
-    <div className="group overflow-hidden rounded-sm border border-[#e8e8e8] bg-white transition duration-300 hover:-translate-y-0.5 hover:shadow-lg">
+    <div className="group overflow-hidden rounded-sm border border-[#e8e8e8] bg-white transition-all duration-500 [transition-timing-function:var(--ease-premium)] hover:-translate-y-1.5 hover:shadow-lg">
       <Link href={`/agents/${agent.slug}`} className="relative block aspect-[3/4] w-full overflow-hidden bg-gray-100">
         <AgentAvatar
           photo={agent.photo}
           name={agent.name}
           sizes="(min-width: 1280px) 25vw, (min-width: 640px) 33vw, 50vw"
-          className="object-cover transition duration-500 group-hover:scale-[1.03]"
+          className="object-cover transition duration-700 [transition-timing-function:var(--ease-premium)] group-hover:scale-[1.03]"
         />
         {badge && (
           <span className="absolute left-3 top-3 rounded-sm bg-[#f6eedc] px-3 py-1 text-xs font-semibold text-[#1a1a1a] shadow-sm">
