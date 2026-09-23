@@ -8,9 +8,15 @@ import { shimmerBlurDataURL } from "@/lib/image";
 export default function PropertyGallery({
   images,
   title,
+  priority = false,
 }: {
   images: string[];
   title: string;
+  // Only set this when the gallery is the page's actual above-the-fold LCP
+  // element — off-plan detail pages already have a hero image with its own
+  // priority, so a second eager-loaded image here would just compete with
+  // it for bandwidth on mobile.
+  priority?: boolean;
 }) {
   const [active, setActive] = useState(0);
   const [lightboxOpen, setLightboxOpen] = useState(false);
@@ -77,7 +83,7 @@ export default function PropertyGallery({
               src={images[active]}
               alt={`${title} - photo ${active + 1}`}
               fill
-              priority
+              priority={priority}
               sizes="(min-width: 1024px) 60vw, 100vw"
               className="object-cover"
               placeholder="blur"

@@ -1,6 +1,7 @@
 "use client";
 
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
+import LazyMount from "./LazyMount";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
 
@@ -30,27 +31,25 @@ const mapOptions: google.maps.MapOptions = {
   ],
 };
 
-export default function OfficeMap() {
+function MapPlaceholder({ label }: { label: string }) {
+  return (
+    <div className="flex aspect-video w-full items-center justify-center rounded-sm border border-[#e8e8e8] bg-[#f3f3f3]">
+      <span className="text-xs text-[#6b7280]">{label}</span>
+    </div>
+  );
+}
+
+// Pulls in the Google Maps JS SDK. Kept separate so LazyMount can defer it
+// until the map has scrolled near the viewport instead of loading eagerly
+// on every visit to the contact page.
+function LoadedOfficeMap() {
   const { isLoaded, loadError } = useJsApiLoader({
     id: "signature-estates-google-map",
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
   });
 
-  if (!GOOGLE_MAPS_API_KEY || loadError) {
-    return (
-      <div className="flex aspect-video w-full items-center justify-center rounded-sm border border-[#e8e8e8] bg-[#f3f3f3]">
-        <span className="text-xs text-[#6b7280]">Business Bay, Dubai</span>
-      </div>
-    );
-  }
-
-  if (!isLoaded) {
-    return (
-      <div className="flex aspect-video w-full items-center justify-center rounded-sm border border-[#e8e8e8] bg-[#f3f3f3]">
-        <span className="text-xs text-[#6b7280]">Loading map&hellip;</span>
-      </div>
-    );
-  }
+  if (loadError) return <MapPlaceholder label="Business Bay, Dubai" />;
+  if (!isLoaded) return <MapPlaceholder label="Loading map…" />;
 
   return (
     <div className="aspect-video w-full overflow-hidden rounded-sm border border-gold-400/25">
@@ -73,5 +72,15 @@ export default function OfficeMap() {
         </OverlayView>
       </GoogleMap>
     </div>
+  );
+}
+
+export default function OfficeMap() {
+  if (!GOOGLE_MAPS_API_KEY) return <MapPlaceholder label="Business Bay, Dubai" />;
+
+  return (
+    <LazyMount placeholder={<MapPlaceholder label="Business Bay, Dubai" />}>
+      <LoadedOfficeMap />
+    </LazyMount>
   );
 }

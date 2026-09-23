@@ -2,6 +2,7 @@
 
 import { GoogleMap, OverlayView, useJsApiLoader } from "@react-google-maps/api";
 import { formatLocation } from "@/lib/format";
+import LazyMount from "./LazyMount";
 
 const GOOGLE_MAPS_API_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_API_KEY ?? "";
 
@@ -36,40 +37,25 @@ interface ProjectLocationMapProps {
   lng: number;
 }
 
-export default function ProjectLocationMap({ name, area, city, lat, lng }: ProjectLocationMapProps) {
+function MapSkeleton({ label }: { label: string }) {
+  return (
+    <div className="flex h-64 items-center justify-center rounded-sm bg-stone-100">
+      <p className="text-sm text-ink-400">{label}</p>
+    </div>
+  );
+}
+
+// The part that actually pulls in the Google Maps JS SDK. Kept separate so
+// LazyMount below can defer it — this only mounts (and only then starts the
+// SDK download) once the map has scrolled near the viewport, instead of
+// eagerly on every off-plan detail page load.
+function LoadedProjectMap({ name, area, city, lat, lng }: ProjectLocationMapProps) {
   const { isLoaded, loadError } = useJsApiLoader({
     id: "signature-estates-google-map",
     googleMapsApiKey: GOOGLE_MAPS_API_KEY,
   });
 
   const position = { lat, lng };
-  // (0, 0) is the "not geocoded" sentinel this data layer defaults to —
-  // it's technically real coordinates (open ocean off West Africa), so
-  // showing it as a pin would be actively misleading rather than empty.
-  const hasLocation = !(lat === 0 && lng === 0);
-
-  if (!hasLocation) {
-    return (
-      <div className="flex h-64 flex-col items-center justify-center rounded-sm border border-dashed border-ink-900/20 bg-stone-100 p-6 text-center">
-        <p className="font-display text-base font-semibold text-ink-800">Location coming soon</p>
-        <p className="mt-2 text-xs text-ink-500">{formatLocation(area, city)}</p>
-      </div>
-    );
-  }
-
-  if (!GOOGLE_MAPS_API_KEY) {
-    return (
-      <div className="flex h-64 flex-col items-center justify-center rounded-sm border border-dashed border-ink-900/20 bg-stone-100 p-6 text-center">
-        <p className="font-display text-base font-semibold text-ink-800">
-          Map view needs a Google Maps API key
-        </p>
-        <p className="mt-2 text-xs text-ink-500">
-          Add <code className="rounded bg-ink-900/10 px-1.5 py-0.5">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code>{" "}
-          to <code className="rounded bg-ink-900/10 px-1.5 py-0.5">.env.local</code> to enable it.
-        </p>
-      </div>
-    );
-  }
 
   if (loadError) {
     return (
@@ -80,11 +66,7 @@ export default function ProjectLocationMap({ name, area, city, lat, lng }: Proje
   }
 
   if (!isLoaded) {
-    return (
-      <div className="flex h-64 items-center justify-center rounded-sm bg-stone-100">
-        <p className="text-sm text-ink-400">Loading map&hellip;</p>
-      </div>
-    );
+    return <MapSkeleton label="Loading map…" />;
   }
 
   return (
@@ -120,5 +102,41 @@ export default function ProjectLocationMap({ name, area, city, lat, lng }: Proje
         </p>
       </div>
     </div>
+  );
+}
+
+export default function ProjectLocationMap({ name, area, city, lat, lng }: ProjectLocationMapProps) {
+  // (0, 0) is the "not geocoded" sentinel this data layer defaults to —
+  // it's technically real coordinates (open ocean off West Africa), so
+  // showing it as a pin would be actively misleading rather than empty.
+  const hasLocation = !(lat === 0 && lng === 0);
+
+  if (!hasLocation) {
+    return (
+      <div className="flex h-64 flex-col items-center justify-center rounded-sm border border-dashed border-ink-900/20 bg-stone-100 p-6 text-center">
+        <p className="font-display text-base font-semibold text-ink-800">Location coming soon</p>
+        <p className="mt-2 text-xs text-ink-500">{formatLocation(area, city)}</p>
+      </div>
+    );
+  }
+
+  if (!GOOGLE_MAPS_API_KEY) {
+    return (
+      <div className="flex h-64 flex-col items-center justify-center rounded-sm border border-dashed border-ink-900/20 bg-stone-100 p-6 text-center">
+        <p className="font-display text-base font-semibold text-ink-800">
+          Map view needs a Google Maps API key
+        </p>
+        <p className="mt-2 text-xs text-ink-500">
+          Add <code className="rounded bg-ink-900/10 px-1.5 py-0.5">NEXT_PUBLIC_GOOGLE_MAPS_API_KEY</code>{" "}
+          to <code className="rounded bg-ink-900/10 px-1.5 py-0.5">.env.local</code> to enable it.
+        </p>
+      </div>
+    );
+  }
+
+  return (
+    <LazyMount placeholder={<MapSkeleton label="Map loads when you scroll here…" />}>
+      <LoadedProjectMap name={name} area={area} city={city} lat={lat} lng={lng} />
+    </LazyMount>
   );
 }

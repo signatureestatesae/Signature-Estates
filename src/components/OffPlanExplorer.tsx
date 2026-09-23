@@ -112,8 +112,8 @@ export default function OffPlanExplorer({ projects }: { projects: OffPlanProject
         </p>
       </div>
 
-      <div className="mb-12 flex flex-wrap items-center gap-3 rounded-sm border border-gray-100 bg-white p-4 shadow-sm">
-        <div className="relative w-48">
+      <div className="mb-12 grid grid-cols-2 gap-3 rounded-sm border border-gray-100 bg-white p-4 shadow-sm sm:flex sm:flex-wrap sm:items-center">
+        <div className="relative sm:w-48">
           <select
             value={filters.country}
             onChange={(e) => updateFilter("country", e.target.value)}
@@ -129,7 +129,7 @@ export default function OffPlanExplorer({ projects }: { projects: OffPlanProject
           <Chevron />
         </div>
 
-        <div className="relative w-48">
+        <div className="relative sm:w-48">
           <select
             value={filters.status}
             onChange={(e) => updateFilter("status", e.target.value)}
@@ -145,7 +145,7 @@ export default function OffPlanExplorer({ projects }: { projects: OffPlanProject
           <Chevron />
         </div>
 
-        <div className="relative w-48">
+        <div className="relative sm:w-48">
           <select
             value={filters.city}
             onChange={(e) => updateFilter("city", e.target.value)}
@@ -161,7 +161,7 @@ export default function OffPlanExplorer({ projects }: { projects: OffPlanProject
           <Chevron />
         </div>
 
-        <div className="relative w-48">
+        <div className="relative sm:w-48">
           <select
             value={filters.area}
             onChange={(e) => updateFilter("area", e.target.value)}
