@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Space_Grotesk, Inter, Public_Sans } from "next/font/google";
+import { Space_Grotesk, Inter, Public_Sans, Cormorant_Garamond } from "next/font/google";
 import Script from "next/script";
 import JsonLd from "@/components/JsonLd";
 import ScrollRestoration from "@/components/ScrollRestoration";
@@ -96,6 +96,16 @@ const publicSans = Public_Sans({
   display: "swap",
 });
 
+// A high-contrast, resort-editorial serif — reserved for the homepage hero's
+// accent line, where it reads as "Aman/One&Only" rather than proptech SaaS.
+const cormorant = Cormorant_Garamond({
+  subsets: ["latin"],
+  weight: ["500", "600"],
+  style: ["normal", "italic"],
+  variable: "--font-cormorant-raw",
+  display: "swap",
+});
+
 const description =
   "Signature Estates connects discerning buyers and investors with Dubai's finest luxury resorts and branded residences.";
 
@@ -124,7 +134,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
       lang="en"
-      className={`h-full antialiased ${spaceGrotesk.variable} ${inter.variable} ${publicSans.variable}`}
+      className={`h-full antialiased ${spaceGrotesk.variable} ${inter.variable} ${publicSans.variable} ${cormorant.variable}`}
     >
       <body className="min-h-full flex flex-col bg-stone-50 text-ink-900">
         <JsonLd data={organizationJsonLd} />

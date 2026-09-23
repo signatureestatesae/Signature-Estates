@@ -8,6 +8,7 @@
   --font-space-grotesk: var(--font-space-grotesk-raw), "Segoe UI", Arial, sans-serif;
   --font-inter: var(--font-inter), "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   --font-public-sans: var(--font-public-sans), "Segoe UI", Arial, sans-serif;
+  --font-cormorant: var(--font-cormorant-raw), Georgia, "Times New Roman", serif;
 
   /* true gold accent — used for CTAs, borders, icon fills and text accents
      against black or white. Kept to a real metallic-gold hue (not amber,
@@ -44,6 +45,7 @@
   --font-display: var(--font-space-grotesk);
   --font-sans: var(--font-inter);
   --font-public-sans: var(--font-public-sans);
+  --font-serif: var(--font-cormorant);
 
   --color-gold-50: var(--color-gold-50);
   --color-gold-100: var(--color-gold-100);
